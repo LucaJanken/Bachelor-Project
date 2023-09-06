@@ -48,9 +48,13 @@ class tf_bao(Likelihood):
         # volume distance dv, sound horizon at baryon drag rs_d,
         # theoretical prediction and chi2 contribution
         
+        # Vectorize the methods that don't support array inputs
+        vectorized_angular_distance = np.vectorize(cosmo.angular_distance)
+        vectorized_Hubble = np.vectorize(cosmo.Hubble)
+
         # Vectorized calculations
-        da = cosmo.angular_distance(self.z)
-        dr = self.z / cosmo.Hubble(self.z)
+        da = vectorized_angular_distance(self.z)
+        dr = self.z / vectorized_Hubble(self.z)
         dv = np.power(da * da * (1 + self.z) * (1 + self.z) * dr, 1. / 3.)
 
         # Initialize an array for the 'theo' values
