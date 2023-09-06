@@ -1,0 +1,4 @@
+# BAO data
+tf_bao.data_directory      = data.path['data']
+tf_bao.file                = 'bao_2012.txt'
+tf_bao.rs_rescale          = 153.017 / 149.0808
