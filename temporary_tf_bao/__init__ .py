@@ -3,7 +3,7 @@ import numpy as np
 from montepython.likelihood_class import Likelihood
 
 
-class tf_bao(Likelihood):
+class temporary_tf_bao(Likelihood):
 
     # initialization routine
 
