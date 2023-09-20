@@ -81,14 +81,5 @@ class tf_bao(Likelihood):
         # return ln(L)
         lkl = - 0.5 * chi2
 
-        # Print statements for debugging
-        print("da values:", da)
-        print("dr values:", dr)
-        print("dv values:", dv)
-        print("theo values:", theo)
-        print("chi2 values:", chi2_values)
-        print("chi2:", chi2)
-        print("lkl:", lkl)
-
         return lkl.numpy()
 
