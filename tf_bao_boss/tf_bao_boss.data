@@ -1,0 +1,4 @@
+# BAO data
+tf_bao_boss.data_directory      = data.path['data']
+tf_bao_boss.file                = 'bao_2014.txt'
+tf_bao_boss.exclude             = []
