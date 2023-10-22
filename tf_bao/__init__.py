@@ -4,52 +4,36 @@ from montepython.likelihood_class import Likelihood
 import tensorflow as tf
 
 
-# Updated tf_bao class with filter_lines() function integrated
-
 class tf_bao(Likelihood):
 
     # initialization routine
+
     def __init__(self, path, data, command_line):
-        super().__init__(path, data, command_line)
 
-        # read redshifts and data points into a list of lines
-        with open(tf.io.gfile.join(self.data_directory, self.file), 'r') as f:
-            lines = f.readlines()
+        Likelihood.__init__(self, path, data, command_line)
 
-        # convert the list of lines into a tensor of strings
-        lines_array = tf.convert_to_tensor(lines, dtype=tf.string)
+        # define array for values of z and data points
+        self.z = np.array([], 'float64')
+        self.data = np.array([], 'float64')
+        self.error = np.array([], 'float64')
+        self.type = np.array([], 'int')
 
-        # filter out lines containing the '#' character
-        filtered_lines = self.filter_lines(lines_array)
-
-        # split each line and extract the data columns
-        data_columns = tf.strings.split(filtered_lines).to_list()
-
-        # convert the list of lists into a 2D tensor
-        data_matrix = tf.stack(data_columns)
-
-        # assign the columns to the respective arrays of z and data points
-        self.z = tf.strings.to_number(data_matrix[:, 0], tf.float64)
-        self.data = tf.strings.to_number(data_matrix[:, 1], tf.float64)
-        self.error = tf.strings.to_number(data_matrix[:, 2], tf.float64)
-        self.type = tf.strings.to_number(data_matrix[:, 3], tf.int32)
+        # read redshifts and data points
+        for line in open(os.path.join(
+                self.data_directory, self.file), 'r'):
+            if (line.find('#') == -1):
+                self.z = np.append(self.z, float(line.split()[0]))
+                self.data = np.append(self.data, float(line.split()[1]))
+                self.error = np.append(self.error, float(line.split()[2]))
+                self.type = np.append(self.type, int(line.split()[3]))
 
         # number of data points
-        self.num_points = tf.shape(self.z)[0]
+        self.num_points = np.shape(self.z)[0]
 
-    def filter_lines(self, lines_tensor):
-        # Convert tensor to list
-        lines_list = lines_tensor.numpy().tolist()
-
-        # Decode byte-like strings to regular strings and filter out lines containing the '#' character
-        filtered_lines_list = [line.decode('utf-8') for line in lines_list if b'#' not in line]
-
-        # Convert the list back to a tensor
-        filtered_lines_tensor = tf.convert_to_tensor(filtered_lines_list, dtype=tf.string)
-
-        return filtered_lines_tensor
+        # end of initialization
 
     # compute likelihood
+
     def loglkl(self, cosmo, data):
 
         # calculations
@@ -82,4 +66,3 @@ class tf_bao(Likelihood):
         lkl = - 0.5 * chi2
 
         return lkl.numpy()
-
