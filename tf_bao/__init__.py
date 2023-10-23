@@ -37,9 +37,9 @@ class tf_bao(Likelihood):
     def loglkl(self, cosmo, data):
 
         # calculations
-        da = [cosmo.angular_distance(z_val.numpy()) for z_val in self.z]
+        da = [cosmo.angular_distance(z_val) for z_val in self.z]
         da = tf.convert_to_tensor(da, dtype=tf.float64)
-        dr = [z_val.numpy() / cosmo.Hubble(z_val.numpy()) for z_val in self.z]
+        dr = [z_val / cosmo.Hubble(z_val) for z_val in self.z]
         dr = tf.convert_to_tensor(dr, dtype=tf.float64)
         dv = tf.math.pow(da * da * (1 + self.z) * (1 + self.z) * dr, 1. / 3.)
 
