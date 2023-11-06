@@ -1,0 +1,5 @@
+tf_JLA.data_directory = os.path.join(data.path['data'], 'JLA')
+tf_JLA.settings       = 'jla.dataset'
+tf_JLA.conflicting_experiments = ['JLA_simple']
+
+tf_JLA.use_nuisance = ['alpha', 'beta', 'M', 'Delta_M']
