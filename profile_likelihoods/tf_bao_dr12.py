@@ -38,7 +38,7 @@ class TF_bao_boss_dr12():
     @tf.function
     def loglkl(self, x):
         # Define output
-        output = self.model(x[:,:])
+        output = self.model(x[:,:-1])
         
         # Compute comoving angular diameter distance D_M = (1 + z) * D_A and Hubble values for each z
         hubble = output[:, self.hubble_idx[0]:self.hubble_idx[1]]
