@@ -13,7 +13,7 @@ class TF_bao():
         self.output_info = eval(self.model.get_raw_info().numpy().decode('utf-8'))
 
         # Set path to datafile (Hardcoded paths would be avoided for general implementation)
-        self.data_directory = '/home/lucajn/connect/resources/montepython_public/data/'
+        self.data_directory = 'data/'
         self.file = 'bao_2012.txt'
         self.rs_rescale = 153.017 / 149.0808 # From tf_bao.data file
 
