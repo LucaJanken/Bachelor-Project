@@ -1,6 +1,5 @@
 import os
 import numpy as np
-import warnings
 import scipy.constants as conts
 import tensorflow as tf
 import pickle as pkl
