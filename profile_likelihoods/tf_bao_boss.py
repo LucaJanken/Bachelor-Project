@@ -34,7 +34,7 @@ class TF_bao_boss():
                     # the first entry of the line is the identifier
                     this_line = line.split()
                     # insert into array if this id is not manually excluded
-                    if not this_line[0] in self.exclude:
+                    if not hasattr(self, 'exclude') or self.exclude == None or not this_line[0] in self.exclude:
                         self.z = np.append(self.z, float(this_line[1]))
                         self.data = np.append(self.data, float(this_line[2]))
                         self.error = np.append(self.error, float(this_line[3]))
