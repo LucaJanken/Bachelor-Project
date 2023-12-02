@@ -3,6 +3,7 @@ import numpy as np
 import scipy.constants as conts
 import tensorflow as tf
 import pickle as pkl
+from new_Spline import Spline_tri
 
 class TF_bao_boss_dr12():
 
@@ -15,12 +16,13 @@ class TF_bao_boss_dr12():
         self.rs_rescale, self.rd_fid_in_Mpc = 1. , 147.78
 
         # Define emulated data
+        self.all_z = np.array(self.output_info['z_bg'])
         self.ang_idx = self.output_info['interval']['bg']['ang.diam.dist.'][:2]
         self.hubble_idx = self.output_info['interval']['bg']['H [1/Mpc]'][:2]
         self.rs_drag_idx = self.output_info['interval']['extra']['rs_drag'][0]
 
         # Set path to datafile (Hardcoded paths would be avoided for general implementation)
-        self.data_directory = 'data/COMBINEDDR12_BAO_consensus_dM_Hz/'
+        self.data_directory = '/home/lucajn/connect/resources/montepython_public/data/COMBINEDDR12_BAO_consensus_dM_Hz/'
         self.data_file = 'BAO_consensus_results_dM_Hz.txt'
         self.cov_file = 'BAO_consensus_covtot_dM_Hz.txt'
 
@@ -31,7 +33,14 @@ class TF_bao_boss_dr12():
         # Read covariance matrix
         self.cov_data = np.loadtxt(os.path.join(self.data_directory, self.cov_file))
         self.inv_cov_data = tf.cast(tf.linalg.inv(self.cov_data), tf.float32)
-        # end of initialization
+
+        # Spline
+        if set(self.all_z).intersection(self.z) != set(self.z):
+            S = Spline_tri(tf.constant(self.all_z, dtype=tf.float32), tf.constant(self.z, dtype=tf.float32))
+            self.spline = lambda x: S.do_spline(x)
+        else:
+            self.indices = np.searchsorted(self.all_z, self.z)
+            self.spline = lambda x: tf.gather(x, self.indices, axis=1)
 
     # compute likelihood
     @tf.function
@@ -40,8 +49,8 @@ class TF_bao_boss_dr12():
         output = self.model(x[:,:-1])
         
         # Compute comoving angular diameter distance D_M = (1 + z) * D_A and Hubble values for each z
-        hubble = output[:, self.hubble_idx[0]:self.hubble_idx[1]]
-        da = output[:, self.ang_idx[0]:self.ang_idx[1]]
+        hubble = self.spline(output[:, self.hubble_idx[0]:self.hubble_idx[1]])
+        da = self.spline(output[:, self.ang_idx[0]:self.ang_idx[1]])
         DM_at_z_values = da * (1. + self.z)
         H_at_z_values = hubble * conts.c / 1000.0
         rs_drag = output[:,self.rs_drag_idx:self.rs_drag_idx+1]
