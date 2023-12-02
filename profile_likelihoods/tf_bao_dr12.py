@@ -22,7 +22,7 @@ class TF_bao_boss_dr12():
         self.rs_drag_idx = self.output_info['interval']['extra']['rs_drag'][0]
 
         # Set path to datafile (Hardcoded paths would be avoided for general implementation)
-        self.data_directory = '/home/lucajn/connect/resources/montepython_public/data/COMBINEDDR12_BAO_consensus_dM_Hz/'
+        self.data_directory = 'data/COMBINEDDR12_BAO_consensus_dM_Hz/'
         self.data_file = 'BAO_consensus_results_dM_Hz.txt'
         self.cov_file = 'BAO_consensus_covtot_dM_Hz.txt'
 
