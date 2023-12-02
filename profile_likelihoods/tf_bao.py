@@ -2,6 +2,7 @@ import os
 import numpy as np
 import tensorflow as tf
 import pickle as pkl
+from new_Spline import Spline_tri
 
 class TF_bao():
 
@@ -18,6 +19,7 @@ class TF_bao():
         self.rs_rescale = 153.017 / 149.0808 # From tf_bao.data file
 
         # Define emulated data
+        self.all_z = np.array(self.output_info['z_bg'])
         self.ang_idx = self.output_info['interval']['bg']['ang.diam.dist.'][:2]
         self.hubble_idx = self.output_info['interval']['bg']['H [1/Mpc]'][:2]
         self.rs_drag_idx = self.output_info['interval']['extra']['rs_drag'][0]
@@ -36,8 +38,13 @@ class TF_bao():
                 self.error = np.append(self.error, float(line.split()[2]))
                 self.type = np.append(self.type, int(line.split()[3]))
 
-        # Number of data points
-        self.num_points = np.shape(self.z)[0]
+        # Spline
+        if set(self.all_z).intersection(self.z) != set(self.z):
+            S = Spline_tri(tf.constant(self.all_z, dtype=tf.float32), tf.constant(self.z, dtype=tf.float32))
+            self.spline = lambda x: S.do_spline(x)
+        else:
+            self.indices = np.searchsorted(self.all_z, self.z)
+            self.spline = lambda x: tf.gather(x, self.indices, axis=1)
 
     @tf.function
     def loglkl(self, x):
@@ -46,8 +53,8 @@ class TF_bao():
         output = self.model(x[:,:-1])
 
         # Calculations
-        hubble = output[:, self.hubble_idx[0]:self.hubble_idx[1]]
-        da = output[:, self.ang_idx[0]:self.ang_idx[1]]
+        hubble = self.spline(output[:, self.hubble_idx[0]:self.hubble_idx[1]])
+        da = self.spline(output[:, self.ang_idx[0]:self.ang_idx[1]])
         dr = tf.divide(self.z, hubble)
         dv = tf.pow(da * da * (1 + self.z) * (1 + self.z) * dr, 1. / 3.)
         rs_drag = output[:,self.rs_drag_idx:self.rs_drag_idx+1]
@@ -65,7 +72,7 @@ class TF_bao():
 
         # Compute chi2
         chi2_values = ((theo - self.data) / self.error) ** 2
-        chi2 = tf.reduce_sum(chi2_values, 1, keepdims=True)
+        chi2 = tf.reduce_sum(chi2_values, 1, keepdims=True)[:,0]
 
         # Compute ln(L)
         lkl = -0.5 * chi2
