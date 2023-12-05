@@ -70,7 +70,7 @@ class TF_bao_boss_dr12():
         data_array = tf.transpose(tf.dynamic_stitch([[0,2,4],[1,3,5]], [DM_diff, H_diff]))
 
         # Compute chi squared
-        chi2 = tf.reduce_sum(tf.multiply(tf.tensordot(data_array, self.inv_cov_data,1), data_array), 1)
+        chi2 = tf.reshape(tf.reduce_sum(tf.multiply(tf.tensordot(data_array, self.inv_cov_data,1), data_array), 1), [-1,1])
         
         # Return ln(L)
         loglkl = -0.5 * chi2
