@@ -86,7 +86,7 @@ class TF_bao_boss():
 
         # Compute chi2
         chi2_values = ((theo - self.data) / self.error) ** 2
-        chi2 = tf.reduce_sum(chi2_values, 1, keepdims=True)[:,0]
+        chi2 = tf.reduce_sum(chi2_values, 1, keepdims=True)
 
         # Compute ln(L)
         lkl = -0.5 * chi2
