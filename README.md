@@ -10,7 +10,7 @@ This repository consists of five primary folders, each serving a distinct purpos
 This folder contains modified files from [CONNECT](https://github.com/AarhusCosmology/connect_public) (version 23.5.0) necessary to reproduce all results from the project. These modifications are essential for integrating the likelihood functions with TensorFlow.
 
 ### 2. `temporary_likelihoods`
-Includes an example of the intermediate translation step, showcasing the transition from loop-based to non-loop based code. The example provided is for the case of the BAO likelihood.
+Includes an example of the intermediate translation step, showcasing the transition from loop-based to non-loop based code. The example provided is for the case of the 'bao' likelihood.
 
 ### 3. `tf_likelihoods`
 This folder hosts all the translated likelihood codes that, while independent of MontePython and CLASS, still rely on their structures. These codes represent an important step in the translation process.
