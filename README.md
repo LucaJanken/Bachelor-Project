@@ -13,10 +13,10 @@ This folder contains modified files from [CONNECT](https://github.com/AarhusCosm
 Includes an example of the intermediate translation step, showcasing the transition from loop-based to non-loop based code. The example provided is for the case of the 'bao' likelihood.
 
 ### 3. `tf_likelihoods`
-This folder hosts all the translated likelihood codes that, while independent of MontePython and CLASS, still rely on their structures. These codes represent an important step in the translation process.
+This folder hosts all the likelihood codes that, while translated into TensorFlow, still rely on MontePython and CLASS. These codes represent an important step in the translation process.
 
 ### 4. `profile_likelihoods`
-Contains all the fully translated and CONNECT-adapted likelihood codes. These codes represent the final output of the translation process and are ready for use in gradient-based computations.
+Contains all the fully translated and CONNECT-adapted likelihood codes. These codes represent the final product of the translation process and are ready for use in gradient-based computations with CONNECT.
 
 ### 5. `notebooks`
-Here you'll find all the Jupyter notebooks (`.ipynb` files) used to generate the plots and results for this project. These notebooks serve as practical examples and guides for utilizing the translated likelihood functions.
+Here you'll find all the Jupyter notebooks (`.ipynb` files) used to generate the plots and results for this project. These notebooks serve as practical examples for utilizing the translated likelihood functions.
