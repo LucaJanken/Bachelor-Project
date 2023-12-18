@@ -1,7 +1,7 @@
 # TensorFlowLikelihoods
 
 ## Introduction
-The "TensorFlowLikelihoods" repository is part of a Bachelor’s project that focuses on enhancing the computation of cosmological observables. The core objective of this project is to enable rapid and precise computations of profile likelihoods, leveraging the power of auto-differentiation through TensorFlow. This initiative involves converting existing likelihood functions, sourced from the [MontePython directory](https://github.com/brinckmann/montepython_public/tree/3.6/montepython/likelihoods), into a format compatible with TensorFlow, thereby facilitating gradient-based computational methods.
+The "TensorFlowLikelihoods" repository is part of a Bachelor’s project that focuses on enhancing the computation of cosmological observables. The core objective of this project is to enable rapid and precise computations of profile likelihoods, leveraging the power of auto-differentiation through TensorFlow. This initiative involves converting existing likelihood functions, sourced from the [MontePython](https://github.com/brinckmann/montepython_public/tree/3.6/montepython/likelihoods) repository, into a format compatible with TensorFlow, thereby facilitating gradient-based computational methods.
 
 ## Folder Structure
 This repository consists of five primary folders, each serving a distinct purpose in the project:
