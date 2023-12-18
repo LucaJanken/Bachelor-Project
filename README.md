@@ -7,7 +7,7 @@ The "TensorFlowLikelihoods" repository is part of a Bachelor’s project that fo
 This repository consists of five primary folders, each serving a distinct purpose in the project:
 
 ### 1. `modified_connect`
-This folder contains modified files from [CONNECT](https://github.com/AarhusCosmology/connect_public
+This folder contains modified files from [CONNECT](https://github.com/AarhusCosmology/connect_public)
 
 ### 2. `notebooks`
 Here you'll find all the Jupyter notebooks (`.ipynb` files) used to generate the plots and results for this project. These notebooks serve as practical examples and guides for utilizing the translated likelihood functions.
