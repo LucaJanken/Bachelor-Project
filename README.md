@@ -1,7 +1,7 @@
 # TensorFlowLikelihoods
 
 ## Introduction
-The "TensorFlowLikelihoods" repository is part of a Bachelor's project that aims to enhance the inference of cosmological parameters. Translating likelihood functions into TensorFlow enables the use of gradient-based methods through auto-differentiation, which presents one way of tackling the greater objective of achieving rapid and precise computation of the profile likelihood. The pre-existing likelihood codes translated in this repository were originally sourced from the [MontePython](https://github.com/brinckmann/montepython_public/tree/3.6/montepython/likelihoods) repository.
+The "TensorFlowLikelihoods" repository is part of a Bachelor's project that aims to enhance the inference of cosmological parameters. Translating likelihood functions into TensorFlow enables the use of gradient-based methods through auto-differentiation, which presents one way of tackling the greater objective of achieving rapid and precise computation of the profile likelihood. The pre-existing and sebsequently translated likelihood codes in this repository were originally sourced from the [MontePython](https://github.com/brinckmann/montepython_public/tree/3.6/montepython/likelihoods) repository.
 
 ## Folder Structure
 This repository consists of five primary folders, each serving a distinct purpose in the project:
